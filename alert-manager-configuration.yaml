@@ -1,0 +1,28 @@
+apiVersion: monitoring.coreos.com/v1beta1
+kind: AlertmanagerConfig
+metadata:
+  name: main-rules-alert-config
+  namespace: monitoring
+spec:
+  route:
+    receiver: 'email'
+    repeatInterval: 30m
+    routes:
+    - matchers:
+      - name: alertname
+        value: HostHighCpuLoad
+    - matchers:
+      - name: alertname
+        value: KubernetesPodCrashLooping
+      repeatInterval: 10m
+  receivers:
+  - name: 'email'
+    emailConfigs:
+    - to: 'zma.cee@gamil.com'
+      from: 'zma.cee@gamil.com'
+      smarthost: 'smtp.gmail.com:587'
+      authUsername: 'zma.cee@gamil.com'
+      authIdentity: 'zma.cee@gamil.com'
+      authPassword:
+       name: gmail-auth
+       key: password
